@@ -11,7 +11,7 @@ import { ref } from "vue";
 export default {
     name: 'MyAwesomeComponent',
     setup() {
-        let pension = ref(100);
+        const pension = ref(100);
 
         function incrementPension() {
             pension.value++;
