@@ -1,22 +1,19 @@
 <template>
     <div>
         <button @click="sayHello">Say Hello</button>
+        <p>Your pension will be: {{ pension }}</p>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'MyAwesomeComponent',
-  setup() {
-    function sayHello() {
-    const welcomeText = 'Siema, co tam?'
-        console.log(addExclamationMark(welcomeText));
-        }
-        function addExclamationMark(text) {
-            return `${text}!`
-        }
-        return {sayHello}
-  }
+    name: 'MyAwesomeComponent',
+    setup() {
+
+        let pension = 1000
+
+        return { pension }
+    }
 }
 </script>
 
