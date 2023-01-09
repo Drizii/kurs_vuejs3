@@ -1,29 +1,45 @@
 <template>
     <div>
-        <h1>Price: {{ price }}$</h1>
-        <button @click="makeOrder">Make next order</button>
-        <p>Quantity: {{ quantity }}</p>
-        <p>Order total price: {{ totalPrice }}</p>
-        <p>Tax: {{ tax }}</p>
+        <p>
+        You have <strong>{{ shares }}</strong>
+        shares and their value is <strong>{{ sharesValue }}$</strong>,
+        becouse share price is <strong>{{ sharePrice }}$</strong>.
+        </p>
+        <button @click="changeNumberOfShares(1)">Buy one share</button>
+        <button @click="changeNumberOfShares(5)">Buy 5 shares</button>
+        <button @click="changeNumberOfShares(-1)">Sell one share</button>
+        <button @click="changeNumberOfShares(-5)">Sell 5 shares</button>
     </div>
 </template>
 
 <script>
-import { computed, toRefs, reactive } from "vue";
+import {ref, computed, watch } from "vue";
 
 export default {
     name: 'MyAwesomeComponent',
     setup() {
-        const state = reactive({
-            quantity: 0,
-            price: 100,
-            totalPrice: computed(() => state.price * state.quantity),
-            tax: computed(() => state.totalPrice * 0.23)
-        });
-        function makeOrder() {
-            state.quantity++;
+        const shares = ref(15);
+        const sharePrice = ref(20);
+        const sharesValue = computed(() => shares.value * sharePrice.value);
+
+        function changeNumberOfShares(number) {
+            if(shares.value + number >= 0) {
+                shares.value += number
+            }
         }
-        return { makeOrder, ...toRefs(state) };
+
+        watch(shares, (shares, prevShares) => {
+            shares > prevShares ? getPrice(1, 5): getPrice(-5, -1)
+        });
+
+        function getPrice(min, max) {
+            const priceDiff = Math.floor(Math.random() * (max - min) + min)
+            if(sharePrice.value + priceDiff >= 0) {
+                sharePrice.value += priceDiff
+            }
+        }
+
+        return {shares, sharePrice, sharesValue, changeNumberOfShares, getPrice }
     }
 };
 </script>
