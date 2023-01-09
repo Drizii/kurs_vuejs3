@@ -1,24 +1,33 @@
 <template>
     <div>
-        <button @click="incrementPension">Increment My Pension</button>
-        <p>Your pension will be: {{ pension }}</p>
+        <h1>Price: {{ price }}$</h1>
+        <button @click="makeOrder">Make next order</button>
+        <p>Quantity: {{ quantity }}</p>
+        <p>Order total price: {{ totalPrice }}</p>
+        <p>Tax: {{ tax }}</p>
     </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
     name: 'MyAwesomeComponent',
     setup() {
-        const pension = ref(100);
+        const state = reactive({
+            quantity: 0,
+            price: 100,
+            totalPrice: 0,
+            tax: 0,
+            });
 
-        function incrementPension() {
-            pension.value++;
+        function makeOrder() {
+            state.quantity++;
+            state.totalPrice = state.quantity * state.price;
+            state.tax = state.totalPrice * 0.23;
         }
-
-        return { pension, incrementPension };
+        return { makeOrder, ...toRefs(state) };
     }
-}
+};
 </script>
 
