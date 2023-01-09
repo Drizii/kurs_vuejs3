@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { computed, toRefs, reactive } from "vue";
 
 export default {
     name: 'MyAwesomeComponent',
@@ -17,14 +17,11 @@ export default {
         const state = reactive({
             quantity: 0,
             price: 100,
-            totalPrice: 0,
-            tax: 0,
-            });
-
+            totalPrice: computed(() => state.price * state.quantity),
+            tax: computed(() => state.totalPrice * 0.23)
+        });
         function makeOrder() {
             state.quantity++;
-            state.totalPrice = state.quantity * state.price;
-            state.tax = state.totalPrice * 0.23;
         }
         return { makeOrder, ...toRefs(state) };
     }
