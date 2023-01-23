@@ -1,7 +1,8 @@
 <template>
     <div>
         <p>Masks: {{masks}}</p>
-        <p v-if="masks">You can buy mask</p>
+        <p v-if="masks > 3">You can buy mask</p>
+        <p v-else-if="masks > 0 && masks <= 3">You can buy a mask, but hurry up!</p>
         <p v-else>You can't buy a mask, it's out of stock!</p>
         <button v-if="masks > 0" @click="buyMask">Buy a mask</button>
     </div>
