@@ -1,45 +1,24 @@
 <template>
     <div>
-        <p>
-        You have <strong>{{ shares }}</strong>
-        shares and their value is <strong>{{ sharesValue }}$</strong>,
-        becouse share price is <strong>{{ sharePrice }}$</strong>.
-        </p>
-        <button @click="changeNumberOfShares(1)">Buy one share</button>
-        <button @click="changeNumberOfShares(5)">Buy 5 shares</button>
-        <button @click="changeNumberOfShares(-1)">Sell one share</button>
-        <button @click="changeNumberOfShares(-5)">Sell 5 shares</button>
+        <p>Masks: {{masks}}</p>
+        <p v-if="masks">You can buy mask</p>
+        <p v-if="!masks">You can't buy a mask, it's out of stock!</p>
+        <button v-if="masks > 0" @click="buyMask">Buy a mask</button>
     </div>
 </template>
 
 <script>
-import {ref, computed, watch } from "vue";
+import { ref } from "vue";
 
 export default {
     name: 'MyAwesomeComponent',
     setup() {
-        const shares = ref(15);
-        const sharePrice = ref(20);
-        const sharesValue = computed(() => shares.value * sharePrice.value);
-
-        function changeNumberOfShares(number) {
-            if(shares.value + number >= 0) {
-                shares.value += number
-            }
+        const masks = ref(5);
+        function buyMask(){
+            masks.value--;
         }
 
-        watch(shares, (shares, prevShares) => {
-            shares > prevShares ? getPrice(1, 5): getPrice(-5, -1)
-        });
-
-        function getPrice(min, max) {
-            const priceDiff = Math.floor(Math.random() * (max - min) + min)
-            if(sharePrice.value + priceDiff >= 0) {
-                sharePrice.value += priceDiff
-            }
-        }
-
-        return {shares, sharePrice, sharesValue, changeNumberOfShares, getPrice }
+        return {masks, buyMask}
     }
 };
 </script>
