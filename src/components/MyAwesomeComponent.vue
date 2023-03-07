@@ -8,7 +8,7 @@
             class="btn"
             @click="buyMask"
             :disabled="!masks"
-            :style="{backgroundColor: '#007bff', color: '#000'}"
+            :class="{'btn--warning': masks > 0 && masks <= 3 }"
             >
             Buy a mask
         </button>
@@ -16,17 +16,25 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, reactive, toRefs } from "vue";
 
 export default {
     name: 'MyAwesomeComponent',
     setup() {
         const masks = ref(5);
+
+        const styles = reactive({
+            btn: {
+            backgroundColor: '#17a2b8',
+            color: '#fff',
+            }
+        });
+
         function buyMask(){
             masks.value--;
         }
 
-        return {masks, buyMask}
+        return {masks, buyMask, ...toRefs(styles)}
     }
 };
 </script>
@@ -40,6 +48,10 @@ export default {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.1 ease-in;
+    &--warning {
+        background-color: #ffc107;
+        color: #000;
+    }
     &:disabled {
         cursor: default;
         background-color: #bd2130;
